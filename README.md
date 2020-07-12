@@ -1,5 +1,5 @@
 # tweepy-bots
-This repo contains few twitter bots that control this account: @DevQuicksilver 
+This repo contains few twitter bots that control this account: @DevQuicksilver   
 These bots are based on the code and examples at https://realpython.com/twitter-bot-python-tweepy/  
 Author: Jay Shah  
 Date: July 12, 2020  
