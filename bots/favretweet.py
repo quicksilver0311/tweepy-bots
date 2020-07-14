@@ -48,7 +48,11 @@ def main(users):
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(follow=users, languages=["en"])
+    while 1:
+        try:
+            stream.filter(follow=users, languages=["en"], stall_warnings=True)
+        except (ProtocolError, AttributeError):
+            logger.error("Error on stream.filter", exc_info=True)
 
 if __name__ == "__main__":
-    main(["44196397", "34743251", "13298072", "895332160130891776", "859816394556284929", "312562568"])
+    main(["44196397", "34743251", "13298072", "895332160130891776", "859816394556284929"])

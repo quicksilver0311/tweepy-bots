@@ -15,7 +15,10 @@ def follow_followers(api):
     for follower in tweepy.Cursor(api.followers).items():
         if not follower.following:
             logger.info(f"Following {follower.name}")
-            follower.follow()
+            try:
+                follower.follow()
+            except:
+                logger.info("User " + follower.screen_name + " may have a private profile")  
 
 def main():
     api = create_api()
