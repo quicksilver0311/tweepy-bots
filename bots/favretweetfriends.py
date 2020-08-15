@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # tweepy-bots/bots/favretweet.py
 # This bot retweets and likes all tweets from developer's friends
 
@@ -6,6 +6,8 @@ import tweepy
 import logging
 from config import create_api
 import json
+from urllib3.exceptions import ProtocolError
+from http.client import IncompleteRead as http_incompleteRead
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -48,8 +50,8 @@ def main(users):
     while 1:
         try:
             stream.filter(follow=users, languages=["en"], stall_warnings=True)
-        except (ProtocolError, AttributeError):
-            logger.error("Error on stream.filter", exc_info=True)
+        except (ProtocolError, AttributeError, http_incompleteRead) as e:
+            logger.error("Error on stream.filter exception: %s" % str(e), exc_info=True)
 
 if __name__ == "__main__":
     main(["716563758634536960", "142721857", "239303217", "551104426", "1445615490", "312562568", "829308408", "71749635", "461147700", "1012185423248908289", "36420075","809522972805328896"])

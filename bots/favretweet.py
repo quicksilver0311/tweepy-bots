@@ -6,6 +6,8 @@ import tweepy
 import logging
 from config import create_api
 import json
+from urllib3.exceptions import ProtocolError
+from http.client import IncompleteRead as http_incompleteRead
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -51,8 +53,8 @@ def main(users):
     while 1:
         try:
             stream.filter(follow=users, languages=["en"], stall_warnings=True)
-        except (ProtocolError, AttributeError):
-            logger.error("Error on stream.filter", exc_info=True)
+        except (ProtocolError, AttributeError, http_incompleteRead) as e:
+            logger.error("Error on stream.filter exception: %s" % str(e), exc_info=True)
 
 if __name__ == "__main__":
     main(["44196397", "34743251", "13298072", "895332160130891776", "859816394556284929"])
